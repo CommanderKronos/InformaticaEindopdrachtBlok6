@@ -18,6 +18,9 @@ public class FART{
     private JList<String> explorerList;
     private JList<String> selectedList;
     private JButton deselectButton;
+    private JPanel selectedPanel;
+    private JLabel explorerLabel;
+    private JLabel selectedLabel;
     private final ArrayList<String> markedArray = new ArrayList<>();
     private static HashMap<String, StringBuilder> contentMap = new HashMap<>();
 
@@ -121,6 +124,8 @@ public class FART{
     }
 
     public static void main(String[] args) {
+        // Set look and feel according to system look and feel. If the method fails, just continue because the option
+        // is not required
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
@@ -131,6 +136,6 @@ public class FART{
         frame.pack();
         frame.setVisible(true);
 
-        // TODO: Fix de GUI, voeg logica toe aan de GUI, optimaliseer
+        // TODO: optimaliseer
     }
 }
