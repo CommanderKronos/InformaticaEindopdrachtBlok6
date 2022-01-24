@@ -71,7 +71,11 @@
                 <minimum-size width="400" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <enabled value="true"/>
+              <horizontalScrollBarPolicy value="30"/>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="862ce" class="javax.swing.JTextArea" binding="fileArea">

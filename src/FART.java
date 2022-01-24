@@ -25,21 +25,28 @@ public class FART{
     private static HashMap<String, StringBuilder> contentMap = new HashMap<>();
 
     public FART() {
+
         JFileChooser j = new JFileChooser();
         j.setMultiSelectionEnabled(true);
         int returnVal = j.showOpenDialog(mainPanel);
         File[] selectedFiles = j.getSelectedFiles();
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+
             contentMap = readFiles(selectedFiles);
             String[] files = contentMap.keySet().toArray(new String[0]);
+
             explorerList.setListData(files);
             explorerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             explorerList.addListSelectionListener(f -> {
-                String selectedValue = explorerList.getSelectedValue();
-                displayFile(contentMap.get(selectedValue));
+                if (!explorerList.getValueIsAdjusting()) {
+                    String selectedValue = explorerList.getSelectedValue();
+                    displayFile(contentMap.get(selectedValue));
+                    fileArea.setCaretPosition(0);
+                }
             });
+
         } else {
-            JOptionPane.showMessageDialog(mainPanel, "Please select 1 or more files.");
+            JOptionPane.showMessageDialog(mainPanel, "Selecteer tenminste 1 bestand.");
             System.exit(0);
         }
 
@@ -92,15 +99,18 @@ public class FART{
         StringBuilder definition = new StringBuilder();
         StringBuilder fileContent = null;
         boolean nextLine = true;
+
         for (File selectedFile : selectedFiles) {
             try {
                 Scanner fileReader = new Scanner(selectedFile);
                 fileContent = new StringBuilder();
                 while (fileReader.hasNextLine()) {
                     String line = fileReader.nextLine();
+
                     if (line.startsWith("DEFINITION")) {
                         definition.append(line.split("\s{2}")[1].strip());
                         fileContent.append(line).append('\n');
+
                         while (nextLine) {
                             line = fileReader.nextLine();
                             if (!line.startsWith("ACCESSION")) {
@@ -116,6 +126,7 @@ public class FART{
             } catch (FileNotFoundException e) {
                 JOptionPane.showMessageDialog(null, "The file - " + selectedFile + " - has not been found, Has it been deleted?");
             }
+
             contentMap.put(definition.toString(), fileContent);
             definition.setLength(0);
         }
@@ -130,6 +141,7 @@ public class FART{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
         }
+
         JFrame frame = new JFrame("FART - Forensic Application for Reading Text");
         frame.setContentPane(new FART().mainPanel);;
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
