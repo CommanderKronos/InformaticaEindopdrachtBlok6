@@ -30,6 +30,7 @@ public class FART{
     public FART() {
 
         JFileChooser j = new JFileChooser();
+        j.setDialogTitle("Selecteer 1 of meerdere bestanden om in te lezen.");
         j.setMultiSelectionEnabled(true);
         int returnVal = j.showOpenDialog(mainPanel);
         File[] selectedFiles = j.getSelectedFiles();
